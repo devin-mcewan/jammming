@@ -27,6 +27,8 @@ class App extends React.Component {
       ],
     };
     this.addTrack = this.addTrack.bind(this);
+    this.removeTrack = this.removeTrack.bind(this);
+    this.updatePlaylistName = this.updatePlaylistName.bind(this);
   }
 
   addTrack(track) {
@@ -36,13 +38,24 @@ class App extends React.Component {
     ) {
       return;
     } else {
-      let newPlaylistTracks = [ ...this.state.playlistTracks ];
+      let newPlaylistTracks = [...this.state.playlistTracks];
       newPlaylistTracks.push(track);
       this.setState({ playlistTracks: newPlaylistTracks });
     }
   }
 
+  removeTrack(track) {
+    let tracks = [...this.state.playlistTracks];
+    tracks = tracks.filter((currentTrack) => currentTrack.id !== track.id);
+    this.setState({ playlistTracks: tracks });
+  }
+
+  updatePlaylistName(playlistName) {
+    this.setState({playlistName})
+  }
+
   render() {
+    console.log(this.state.playlistName)
     return (
       <div>
         <h1>
@@ -61,6 +74,8 @@ class App extends React.Component {
             <Playlist
               playlistName={this.state.playlistName}
               playlistTracks={this.state.playlistTracks}
+              onRemove={this.removeTrack}
+              onNameChange={this.updatePlaylistName}
             />
           </div>
         </div>
